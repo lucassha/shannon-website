@@ -23,22 +23,20 @@ resource "aws_route53_record" "validation" {
 
 resource "aws_cloudfront_distribution" "distribution" {
   aliases = [
-    "www.shannonlucas.info", "shannonlucas.info"
+    "shannonlucas.info",
+    "www.shannonlucas.info",
   ]
-  comment             = "CF Distribution for shannonlucas.info "
   enabled             = true
   http_version        = "http2"
-  is_ipv6_enabled     = true
-  retain_on_delete    = false
+  is_ipv6_enabled     = false
   wait_for_deployment = true
 
-
   default_cache_behavior {
-    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods = [
       "GET",
       "HEAD",
     ]
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     cached_methods = [
       "GET",
       "HEAD",
@@ -49,6 +47,8 @@ resource "aws_cloudfront_distribution" "distribution" {
     min_ttl                = 0
     smooth_streaming       = false
     target_origin_id       = "shannonlucas.info"
+    trusted_key_groups     = []
+    trusted_signers        = []
     viewer_protocol_policy = "redirect-to-https"
   }
 
@@ -62,7 +62,7 @@ resource "aws_cloudfront_distribution" "distribution" {
       http_port                = 80
       https_port               = 443
       origin_keepalive_timeout = 5
-      origin_protocol_policy   = "https-only"
+      origin_protocol_policy   = "http-only"
       origin_read_timeout      = 30
       origin_ssl_protocols = [
         "TLSv1",
@@ -80,8 +80,9 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate.cert.arn
-    minimum_protocol_version = "TLSv1.2_2021"
-    ssl_support_method       = "sni-only"
+    acm_certificate_arn            = "arn:aws:acm:us-east-1:793074950198:certificate/3d111606-bad9-48cf-9d01-a4115bb6093a"
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
   }
 }

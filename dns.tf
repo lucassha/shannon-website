@@ -8,7 +8,7 @@ resource "aws_route53_record" "a" {
   type    = "A"
 
   alias {
-    evaluate_target_health = true
+    evaluate_target_health = false
     # you can use these instead of the cloudfront links if you are not utilizing https
     # name                   = aws_s3_bucket.shannon_public_domain_bucket.website_domain
     # zone_id = aws_s3_bucket.shannon_public_domain_bucket.hosted_zone_id
@@ -23,7 +23,7 @@ resource "aws_route53_record" "a_subdomain" {
   type    = "A"
 
   alias {
-    evaluate_target_health = true
+    evaluate_target_health = false
     # you can use these instead of the cloudfront links if you are not utilizing https
     # name                   = aws_s3_bucket.shannon_public_subdomain_bucket.website_domain
     # zone_id = aws_s3_bucket.shannon_public_subdomain_bucket.hosted_zone_id
